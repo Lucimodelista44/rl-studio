@@ -1,0 +1,2 @@
+Pasta: rl-studio
+  └─ index.html (o arquivo que você baixou)
