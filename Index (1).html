@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rádio Luci RL Studio 24h - Fácil Suno + Seu Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,300;6..96,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.font-serif{font-family:'Bodoni Moda',serif} 
+body{font-family:'Inter',system-ui,sans-serif;background:#0A1931;color:#EDE6D8}
+@keyframes spin{to{transform:rotate(1turn)}}
+@keyframes glowPulse{0%,100%{transform:scale(1); opacity:0.20;}50%{transform:scale(1.012); opacity:0.30;}}
+@keyframes shimmer{0%{box-shadow:0 0 8px 1px rgba(201,168,106,0.14),0 0 14px 3px rgba(201,168,106,0.07);}50%{box-shadow:0 0 10px 1px rgba(201,168,106,0.20),0 0 18px 4px rgba(201,168,106,0.10);}100%{box-shadow:0 0 8px 1px rgba(201,168,106,0.14),0 0 14px 3px rgba(201,168,106,0.07);}}
+@keyframes starFloat{0%{transform:translate(0,0) scale(0);opacity:0;}10%{opacity:1;transform:translate(var(--x1),var(--y1)) scale(1);}90%{opacity:0.8;}100%{transform:translate(var(--x2),var(--y2)) scale(0);opacity:0;}}
+.vinil-spinning{animation: spin 7s linear infinite;}
+.glow-active{opacity:0.45 !important;animation: glowPulse 3.5s ease-in-out infinite, shimmer 3.5s ease-in-out infinite;}
+.star-particle{position:absolute;width:3px;height:3px;background:radial-gradient(circle,#fff 0%,#C9A86A 40%,#C9A86A 100%);border-radius:50%;box-shadow:0 0 4px #C9A86A,0 0 6px rgba(201,168,106,0.6);pointer-events:none;animation: starFloat var(--duration) ease-out forwards;}
+.star-particle.golden{background:radial-gradient(circle,#FFF8DC 0%,#FFD700 50%,#C9A86A 100%);}
+.star-particle.white{background:radial-gradient(circle,#fff 0%,#EDE6D8 100%);width:2px;height:2px;}
+.loader{border:2px solid rgba(201,168,106,0.2); border-top:2px solid #C9A86A; border-radius:50%; width:20px; height:20px; animation: spin 1s linear infinite;}
+</style>
+</head>
+<body class="min-h-screen">
+<div class="fixed inset-0 pointer-events-none">
+  <div class="absolute inset-0 bg-gradient-to-b from-[#0A1931] via-[#0E2142] to-[#0A1931]"></div>
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#C9A86A]/[0.06] blur-[120px] rounded-full"></div>
+</div>
+<main class="relative z-10 max-w-6xl mx-auto px-4 md:px-6 py-8">
+  <header class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-3">
+      <div class="h-10 w-10 rounded-full bg-[#C9A86A] flex items-center justify-center text-[#0A1931] font-serif font-bold">RL</div>
+      <div>
+        <h1 class="font-serif text-[18px] leading-none">Rádio Luci RL Studio 24h</h1>
+        <p class="text-[10px] tracking-[0.2em] uppercase opacity-60 mt-1">Opção 2 • Fácil • Suno + Seu Visual</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.12em] opacity-60">
+      <span class="h-2 w-2 rounded-full bg-[#3DD68C] animate-pulse"></span> No Ar via Suno
+    </div>
+  </header>
+  <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+    <div class="rounded-[28px] border border-white/10 bg-white/[0.02] backdrop-blur-xl p-6 md:p-7">
+      <div class="relative mx-auto h-[300px] w-[300px] flex items-center justify-center">
+        <div id="vinilGlow" class="absolute inset-0 rounded-full bg-[#C9A86A]/20 blur-[30px] opacity-20 transition-all duration-700"></div>
+        <div id="vinilGlowRing" class="absolute inset-[12px] rounded-full border border-[#C9A86A]/20 opacity-20 transition-all duration-700"></div>
+        <div id="starsContainer" class="absolute inset-0 opacity-0 transition-opacity duration-700"></div>
+        <div id="vinil" class="relative h-[260px] w-[260px] rounded-full bg-gradient-to-br from-zinc-900 to-black border-[8px] border-zinc-800 flex items-center justify-center">
+          <div class="h-[90px] w-[90px] rounded-full bg-[#C9A86A] flex items-center justify-center border-4 border-zinc-900">
+            <span class="font-serif text-[10px] leading-none text-[#0A1931] text-center font-bold">RL<br>STUDIO<br>24H</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 rounded-[16px] border border-[#C9A86A]/30 bg-[#C9A86A]/10 p-4">
+        <div class="flex items-center gap-2 mb-3">
+          <span id="statusDot" class="h-2 w-2 rounded-full bg-zinc-500"></span>
+          <span id="statusText" class="text-[11px] uppercase tracking-[0.15em] text-[#C9A86A]">Pronto - Opção mais fácil</span>
+        </div>
+        <button id="playRadioBtn" class="w-full h-[56px] rounded-full bg-[#C9A86A] text-[#0A1931] font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-[#D9BC82] transition-all shadow-[0_0_20px_rgba(201,168,106,0.3)]">
+          <span id="playIcon">▶</span>
+          <span id="playLabel">Tocar Rádio</span>
+          <span id="loader" class="hidden loader"></span>
+        </button>
+        <div id="audioHint" class="hidden mt-3 p-3 rounded-[10px] bg-[#3DD68C]/10 border border-[#3DD68C]/20">
+          <p class="text-[11px] text-[#3DD68C] leading-relaxed">✅ Se não ouvir, clique no ▶ <b>dentro</b> do player Suno ao lado. Suno exige 2 cliques.</p>
+        </div>
+        <p class="text-[10px] opacity-50 mt-3 text-center">1 arquivo só pro GitHub • Sem MP3 • Seu visual original</p>
+      </div>
+    </div>
+    <div class="rounded-[28px] border border-[#C9A86A]/20 bg-white/[0.01] backdrop-blur-xl overflow-hidden flex flex-col">
+      <div class="p-6 md:p-7 pb-2">
+        <h3 class="font-serif text-[22px] leading-none">Rádio no Ar</h3>
+        <p class="text-[12px] opacity-60 mt-2">Álbum oficial: 91ee807d-a199-4236-ad20-972c5448c3a4</p>
+      </div>
+      <div class="flex-1 p-3 md:p-4 pt-2">
+        <div id="sunoFacade" class="rounded-[18px] overflow-hidden border border-white/10 bg-gradient-to-b from-[#0E2142] to-[#0A1931] h-[620px] flex flex-col items-center justify-center p-8 text-center">
+          <div class="h-24 w-24 rounded-full bg-[#C9A86A]/20 border-2 border-[#C9A86A]/30 flex items-center justify-center mb-6">
+            <div class="h-16 w-16 rounded-full bg-[#C9A86A] flex items-center justify-center text-[#0A1931] text-3xl">▶</div>
+          </div>
+          <h4 class="font-serif text-[22px]">Opção 2 - Mais Fácil</h4>
+          <p class="text-[12px] opacity-60 mt-3 max-w-[360px]">Clique no botão dourado à esquerda para tocar seu álbum da Suno. Seu vinil vai girar!</p>
+          <button id="loadSunoBtn" class="mt-6 px-8 h-11 rounded-full bg-[#C9A86A] text-[#0A1931] font-semibold">Carregar Álbum</button>
+        </div>
+        <div id="sunoReal" class="hidden rounded-[18px] overflow-hidden border border-white/10 bg-[#0A1931]/50 h-[620px] relative">
+          <div id="loadingOverlay" class="absolute inset-0 bg-[#0A1931] flex flex-col items-center justify-center z-10">
+            <div class="loader w-10 h-10 border-4 mb-4"></div>
+            <p class="text-[12px] opacity-70">Carregando álbum da Suno...</p>
+          </div>
+          <iframe id="sunoIframe" src="" width="100%" height="620" frameborder="0" allow="autoplay; encrypted-media; clipboard-write; fullscreen" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-8 rounded-[28px] border border-[#C9A86A]/20 bg-white/[0.01] backdrop-blur-xl overflow-hidden">
+    <div class="p-6 md:p-8">
+      <h3 class="font-serif text-[20px]">Apoie a RL Studio 24h</h3>
+      <div class="rounded-[18px] overflow-hidden border border-white/10 bg-[#0A1931]/50 mt-6">
+        <iframe src="https://widget.livepix.gg/embed/884142f7-0af2-4692-8ff4-edfb8ae8bfac" style="width:100%;height:680px;border:0" allow="payment *" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+  <footer class="border-t border-white/10 py-8 mt-10 text-[10px] tracking-[0.18em] uppercase opacity-60 flex justify-between">
+    <span>RL Studio — Ribeirão Bonito SP</span>
+    <span class="text-[#C9A86A]">Opção 2 • Fácil • Suno</span>
+  </footer>
+</main>
+<script>
+let isPlaying=false, sunoLoaded=false;
+const playRadioBtn=document.getElementById('playRadioBtn'), playIcon=document.getElementById('playIcon'), playLabel=document.getElementById('playLabel'), statusDot=document.getElementById('statusDot'), statusText=document.getElementById('statusText'), vinil=document.getElementById('vinil'), vinilGlow=document.getElementById('vinilGlow'), vinilGlowRing=document.getElementById('vinilGlowRing'), starsContainer=document.getElementById('starsContainer'), facade=document.getElementById('sunoFacade'), real=document.getElementById('sunoReal'), iframe=document.getElementById('sunoIframe'), loader=document.getElementById('loader'), loadingOverlay=document.getElementById('loadingOverlay'), audioHint=document.getElementById('audioHint');
+let starsInterval=null;
+function createStarBurst(){const rect=starsContainer.getBoundingClientRect();const cx=rect.width/2, cy=rect.height/2, radius=140;for(let i=0;i<2;i++){const angle=Math.random()*Math.PI*2;const startR=radius+Math.random()*10;const sx=cx+Math.cos(angle)*startR, sy=cy+Math.sin(angle)*startR;const dist=30+Math.random()*50;const ex=Math.cos(angle)*dist, ey=Math.sin(angle)*dist;const star=document.createElement('div');const isGolden=Math.random()>0.3;star.className='star-particle '+(isGolden?'golden':'white');star.style.left=sx+'px';star.style.top=sy+'px';star.style.setProperty('--x1',(Math.cos(angle)*8)+'px');star.style.setProperty('--y1',(Math.sin(angle)*8)+'px');star.style.setProperty('--x2',ex+'px');star.style.setProperty('--y2',ey+'px');star.style.setProperty('--duration',(1.2+Math.random()*1.8)+'s');const size=1.5+Math.random()*2.5;star.style.width=size+'px';star.style.height=size+'px';starsContainer.appendChild(star);setTimeout(()=>star.remove(),3000);}}
+function startStars(){starsContainer.style.opacity='1'; if(starsInterval) clearInterval(starsInterval); starsInterval=setInterval(createStarBurst,350); for(let k=0;k<4;k++) setTimeout(createStarBurst,k*120);}
+function stopStars(){starsContainer.style.opacity='0'; if(starsInterval){clearInterval(starsInterval); starsInterval=null;} setTimeout(()=>{starsContainer.innerHTML='';},800);}
+function updateUI(){if(isPlaying){playIcon.textContent="⏸"; playLabel.textContent="Pausar Rádio"; statusDot.className="h-2 w-2 rounded-full bg-[#3DD68C] animate-pulse"; statusText.textContent="Tocando - se não ouvir clique no ▶ dentro do Suno"; vinil.classList.add('vinil-spinning'); vinil.style.animationPlayState='running'; vinilGlow.classList.add('glow-active'); vinilGlowRing.classList.add('glow-active'); startStars(); audioHint.classList.remove('hidden');}else{playIcon.textContent="▶"; playLabel.textContent=sunoLoaded?"Retomar Rádio":"Tocar Rádio"; statusDot.className="h-2 w-2 rounded-full bg-zinc-500"; statusText.textContent=sunoLoaded?"Pausado":"Pronto"; vinil.style.animationPlayState='paused'; vinilGlow.classList.remove('glow-active'); vinilGlowRing.classList.remove('glow-active'); stopStars();}}
+function loadSuno(){loader.classList.remove('hidden'); playIcon.classList.add('hidden'); playLabel.textContent="Carregando..."; const embedUrl="https://suno.com/embed/album/91ee807d-a199-4236-ad20-972c5448c3a4"; iframe.src=embedUrl; facade.classList.add('hidden'); real.classList.remove('hidden'); loadingOverlay.classList.remove('hidden'); sunoLoaded=true; iframe.onload=()=>{setTimeout(()=>{loadingOverlay.classList.add('hidden'); loader.classList.add('hidden'); playIcon.classList.remove('hidden'); isPlaying=true; updateUI();},2500);};}
+function toggleRadio(){if(!sunoLoaded){loadSuno();}else{if(isPlaying){real.classList.add('hidden'); facade.classList.remove('hidden'); facade.innerHTML='<div class="h-20 w-20 rounded-full bg-white/10 border flex items-center justify-center mb-6"><div class="h-16 w-16 rounded-full bg-white flex items-center justify-center text-[#0A1931] text-2xl">⏸</div></div><h4 class="font-serif text-[20px]">Pausado</h4><button onclick="toggleRadio()" class="mt-6 px-8 h-11 rounded-full bg-[#C9A86A] text-[#0A1931] font-semibold">▶ Retomar</button>'; isPlaying=false; updateUI();}else{facade.classList.add('hidden'); real.classList.remove('hidden'); loadingOverlay.classList.add('hidden'); isPlaying=true; updateUI();}}}
+document.getElementById('loadSunoBtn').onclick=loadSuno; playRadioBtn.onclick=toggleRadio; updateUI();
+</script>
+</body>
+</html>
